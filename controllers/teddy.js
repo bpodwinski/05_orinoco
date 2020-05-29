@@ -1,5 +1,7 @@
+const axios = require('axios');
 const uuid = require('uuid/v1');
 const Teddy = require('../models/Teddy');
+const Currency = require('../models/Currency');
 
 exports.getAllTeddies = (req, res, next) => {
   Teddy.find().then(

@@ -1,5 +1,7 @@
+const axios = require('axios');
 const uuid = require('uuid/v1');
 const Furniture = require('../models/Furniture');
+const Currency = require('../models/Currency');
 
 exports.getAllFurniture = (req, res, next) => {
   Furniture.find().then(
