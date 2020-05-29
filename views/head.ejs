@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title><%= typeof title != 'undefined' ? title : 'Orinoco' %></title>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="Benoit Podwinski">
+    <meta name="description" content="<%= typeof data != 'undefined' ? data.description : 'Site de vente de peluche' %>">
+    <meta property="og:title" content="<%= typeof title != 'undefined' ? title : 'Orinoco' %>">
+    <meta property="og:description" content="<%= typeof data != 'undefined' ? data.description : 'Site de vente de peluche' %>">
+    <meta property="og:url" content="https://orinoco.com/">
+    <meta property="og:site_name" content="<%= typeof title != 'undefined' ? title : 'Orinoco' %>">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://orinoco.com/">
+    <meta name="twitter:title" content="<%= typeof title != 'undefined' ? title : 'Orinoco' %>">
+
+    <link rel="stylesheet" href="//stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+</head>

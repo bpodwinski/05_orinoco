@@ -1,0 +1,56 @@
+<%- include('head') %>
+<%- include('header') %>
+
+<div class="container">
+    <section class="cart">
+        <h3 class="text-center mb-4">Panier</h3>
+        <div id="cart">
+            <table class="table">
+                <tbody>
+                    <thead>
+                        <tr>
+                            <th scope="col">Produit</th>
+                            <th scope="col">Prix</th>
+                        </tr>
+                    </thead>
+                    <tr>
+                        <td>
+                            <img src="#" alt="Produit" width="100" height="100">
+                            <%= data %>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <form method="post" action="/">
+                <div class="form-row">
+                    <div class="col-sm-12 mb-3">
+                        <label for="firstName">Prénom</label>
+                        <input type="text" class="form-control" id="firstName" required>
+                    </div>
+                    <div class="col-sm-12 mb-3">
+                        <label for="lastName">Nom</label>
+                        <input type="text" class="form-control" id="lastName" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-sm-12 col-md-6 mb-3">
+                        <label for="address">Adresse</label>
+                        <input type="text" class="form-control" id="address" required>
+                    </div>
+                    <div class="col-sm-12 col-md-3 mb-3">
+                        <label for="city">Ville</label>
+                        <input type="text" class="form-control" id="city" required>
+                    </div>
+                    <div class="col-sm-12 col-md-3 mb-3">
+                        <label for="email">Email</label>
+                        <input type="text" class="form-control" id="email" required>
+                    </div>
+                </div>
+                <input type="submit" class="btn btn-primary" value="Valider">
+            </form>
+        </div>
+    </section>
+</div>
+
+<%- include('footer') %>
