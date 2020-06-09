@@ -6,7 +6,7 @@ if (typeof localStorage === "undefined" || localStorage === null) {
   localStorage = new LocalStorage("./scratch");
 }
 
-exports.addToCart = (req, res, next) => {
+exports.removeToCart = (req, res, next) => {
   let data = {
     id: req.body.product_id,
     name: req.body.product_name,
@@ -21,9 +21,7 @@ exports.addToCart = (req, res, next) => {
     let itemIndex = cart.findIndex((el) => el.id == data.id);
 
     if (itemIndex > -1) {
-      let qty = parseInt(cart[itemIndex].qty);
-      qty += parseInt(data.qty);
-      cart[itemIndex].qty = qty;
+      cart.splice(itemIndex, 1);
     } else {
       cart.push(data);
     }
@@ -32,6 +30,10 @@ exports.addToCart = (req, res, next) => {
   }
 
   localStorage.setItem("cart", JSON.stringify(cart));
+
+  if (cart.length === 0) {
+    localStorage.removeItem("cart");
+  }
 
   return res.redirect("/panier");
 };

@@ -34,7 +34,7 @@ exports.getOneCamera = (req, res, next) => {
 };
 
 exports.getAxiosAllCameras = async (req, res, next) => {
-  let get = await axios.get("http://192.168.2.75:3000/api/cameras");
+  let get = await axios.get("http://orinoco.benoitpodwinski.com/api/cameras");
   let data = get.data;
 
   for (let i = 0; i < data.length; i++) {
@@ -49,9 +49,12 @@ exports.getAxiosAllCameras = async (req, res, next) => {
 };
 
 exports.getAxiosCatCameras = async (req, res, next) => {
-  let get = await axios.get("http://192.168.2.75:3000/api/cameras");
+  let get = await axios.get("http://orinoco.benoitpodwinski.com/api/cameras");
   let data = get.data;
-  let title = "Nos caméras - Orinoco";
+
+  if (localStorage.getItem("cart") != undefined) {
+    cart = JSON.parse(localStorage.getItem("cart"));
+  }
 
   for (let i = 0; i < data.length; i++) {
     if (data[i].price) {
@@ -60,25 +63,28 @@ exports.getAxiosCatCameras = async (req, res, next) => {
   }
 
   return res.render("../views/category", {
+    title: "Caméras - Orinoco",
     data: data,
-    title: title,
   });
 };
 
 exports.getAxiosOneCamera = async (req, res, next) => {
   let get = await axios.get(
-    "http://192.168.2.75:3000/api/cameras/" + req.params.id
+    "http://orinoco.benoitpodwinski.com/api/cameras/" + req.params.id
   );
   let data = get.data;
-  let title = data.name + " - Orinoco";
+
+  if (localStorage.getItem("cart") != undefined) {
+    cart = JSON.parse(localStorage.getItem("cart"));
+  }
 
   if (data.price) {
     data.price = Currency.currencyFormat(data.price);
   }
 
   return res.render("../views/product", {
+    title: data.name + " - " + "Orinoco",
     id: req.params.id,
-    title: title,
     data: data,
   });
 };

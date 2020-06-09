@@ -3,28 +3,30 @@ const path = require("path");
 const fs = require("fs");
 
 exports.cart = (req, res, next) => {
-  let title = "Panier - Orinoco";
+  cart = "";
+  let totalPrice = [];
 
-  fs.readFile(
-    path.resolve(__dirname, "../var/carts/cart_" + req.session.id + ".json"),
-    (err, file) => {
-      if (err) {
-        console.log(err);
-      } else {
-        let data = [];
-        data = JSON.parse(file);
+  if (localStorage.getItem("cart") != undefined) {
+    cart = JSON.parse(localStorage.getItem("cart"));
+  }
 
-        for (let val of data) {
-          axios
-            .get("http://192.168.2.75:3000/api/cameras/" + val)
-            .then(function (res) {
-              function getData() {
-                data = res.data;
-              }
-            });
-        }
-        console.log(getData());
-      }
-    }
-  );
+  if (cart.length === 0) {
+    localStorage.removeItem("cart");
+  }
+
+  for (let i = 0; i < cart.length; i++) {
+    totalPrice.push(parseInt(cart[i].price));
+  }
+
+  let sum = (accumulator, currentValue) => accumulator + currentValue;
+  totalPrice = totalPrice.reduce(sum);
+
+  res.render("../views/cart", {
+    title: "Panier - Orinoco",
+    data: cart,
+    totalPrice: totalPrice,
+    success: req.session.success,
+    errors: req.session.errors,
+  });
+  req.session.destroy();
 };

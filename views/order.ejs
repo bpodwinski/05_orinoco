@@ -1,0 +1,52 @@
+<%- include('head') %>
+<%- include('header') %>
+
+<div class="container">
+    <section class="cart">
+        <div id="cart" class="jumbotron">
+            <h1 class="text-center mb-4">Merci pour votre commande !</h1>
+            <p class="lead text-center">L'équipe Orinoco vous remercie pour votre commande</p>
+
+            <hr class="my-4">
+
+            <p>Votre commande <span class="badge badge-info"><%= orderData.orderId %></span> à été confirmée et envoyée
+                à
+                notre équipe.</p>
+
+            <h2 class="mt-4">Votre adresse :</h2>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item"><span>Prénom : </span><%= orderData.contact.firstName %></li>
+                <li class="list-group-item"><span>Nom : </span><%= orderData.contact.lastName %></li>
+                <li class="list-group-item"><span>Adresse : </span><%= orderData.contact.address %></li>
+                <li class="list-group-item"><span>Ville : </span><%= orderData.contact.city %></li>
+                <li class="list-group-item"><span>Email : </span><%= orderData.contact.email %></li>
+            </ul>
+
+            <table class="table table-borderless mt-4">
+                <tbody>
+                    <thead>
+                        <tr>
+                            <th scope="col">Produits</th>
+                            <th scope="col" class="text-right">Prix</th>
+                        </tr>
+                    </thead>
+                    <% for(var i=0; i < orderProducts.length; i++) { %>
+                    <tr>
+                        <td>
+                            <img src="<%= orderProducts[i].imageUrl %>" class="img-fluid mr-3"
+                                alt="<%= orderProducts[i].name %>" width="80">
+                            <span><%= orderProducts[i].name %></span>
+                        </td>
+                        <td class="text-right">
+                            <span><%= orderProducts[i].price %></span>
+                        </td>
+                    </tr>
+                    <% } %>
+                </tbody>
+            </table>
+
+        </div>
+    </section>
+</div>
+
+<%- include('footer') %>

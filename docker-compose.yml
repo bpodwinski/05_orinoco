@@ -1,0 +1,11 @@
+version: "3"
+services:
+  orinoco:
+    build: .
+    image: orinoco
+    container_name: orinoco
+    domainname: orinoco.benoitpodwinski.com
+    hostname: orinoco
+    restart: always
+    ports:
+      - "0.0.0.0:19478:3000"

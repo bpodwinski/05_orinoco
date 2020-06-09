@@ -45,4 +45,4 @@ server.on("listening", () => {
   console.log("Listening on " + bind);
 });
 
-server.listen(port, "192.168.2.75");
+server.listen(port);

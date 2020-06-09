@@ -5,7 +5,9 @@ const path = require("path");
 const session = require("express-session");
 
 const homeRoutes = require("./routes/homepage");
+const orderRoutes = require("./routes/order");
 const addRoutes = require("./routes/add");
+const removeRoutes = require("./routes/remove");
 const cartRoutes = require("./routes/cart");
 const cameraRoutes = require("./routes/camera");
 const teddyRoutes = require("./routes/teddy");
@@ -18,7 +20,7 @@ app.set("view engine", "ejs");
 mongoose
   .connect(
     "mongodb+srv://will:nAcmfCoHGDgzrCHG@cluster0-pme76.mongodb.net/test?retryWrites=true",
-    { useNewUrlParser: true }
+    { useNewUrlParser: true, useUnifiedTopology: true }
   )
   .then(() => {
     console.log("Successfully connected to MongoDB Atlas!");
@@ -32,7 +34,7 @@ app.use(
   session({
     secret: "test",
     resave: false,
-    saveUninitialized: true,
+    saveUninitialized: false,
     cookie: { secure: false },
   })
 );
@@ -52,11 +54,14 @@ app.use((req, res, next) => {
 
 app.use("/images", express.static(path.join(__dirname, "images")));
 
+app.use(express.json());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use("/", homeRoutes);
+app.use("/", orderRoutes);
 app.use("/", addRoutes);
+app.use("/", removeRoutes);
 app.use("/", cartRoutes);
 app.use("/", cameraRoutes);
 app.use("/api/teddies", teddyRoutes);

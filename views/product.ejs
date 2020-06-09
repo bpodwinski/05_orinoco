@@ -28,18 +28,21 @@
                     <div class="form-row mb-4">
                         <div class="col-12">
                             <label id="quantity" for="product_qty">Quantité</label>
-                            <input type="number" min="1" max="10" value="1" name="product_qty" id="quantity" class="form-control" placeholder="Quantité" aria-label="Quantité" aria-describedby="quantity">
+                            <input type="number" min="1" max="10" value="1" name="product_qty" id="quantity"
+                                class="form-control" placeholder="Quantité" aria-label="Quantité"
+                                aria-describedby="quantity">
                         </div>
                     </div>
 
-                    <p class="price"><%= data.price %></p>
+                    <p class="price"><%= data.price + " €" %></p>
 
                     <input type="hidden" name="product_id" value="<%= data._id %>">
                     <input type="hidden" name="product_img" value="<%= data.imageUrl %>">
                     <input type="hidden" name="product_name" value="<%= data.name %>">
                     <input type="hidden" name="product_price" value="<%= data.price %>">
-                    <button type="submit" class="btn btn-secondary btn-lg btn-block addtocart">Ajouter au panier</button>
-                    
+                    <button type="submit" class="btn btn-secondary btn-lg btn-block addtocart">Ajouter au
+                        panier</button>
+
                 </form>
             </div>
         </div>
