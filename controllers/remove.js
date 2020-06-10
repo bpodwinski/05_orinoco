@@ -1,36 +1,38 @@
-const path = require("path");
-const fs = require("fs");
+if (typeof localStorage === "undefined" || localStorage === null) {
+  let LocalStorage = require("node-localstorage").LocalStorage;
+  localStorage = new LocalStorage("./scratch");
+}
+const cart = require("../models/Cart");
 
 if (typeof localStorage === "undefined" || localStorage === null) {
-  var LocalStorage = require("node-localstorage").LocalStorage;
+  let LocalStorage = require("node-localstorage").LocalStorage;
   localStorage = new LocalStorage("./scratch");
 }
 
 exports.removeToCart = (req, res, next) => {
+  let cartData = cart.cartSchema();
   let data = {
     id: req.body.product_id,
     name: req.body.product_name,
     img: req.body.product_img,
-    price: req.body.product_price,
-    qty: req.body.product_qty,
+    price: parseInt(req.body.product_price),
+    qty: parseInt(req.body.product_qty),
   };
-  let cart = [];
 
-  if (localStorage.getItem("cart") != undefined) {
-    cart = JSON.parse(localStorage.getItem("cart"));
-    let itemIndex = cart.findIndex((el) => el.id == data.id);
+  // If the cart exist
+  if (cartData != undefined) {
+    // If the product is already in cart then remove the product
+    let itemIndex = cartData.findIndex((el) => el.id == data.id);
 
     if (itemIndex > -1) {
-      cart.splice(itemIndex, 1);
-    } else {
-      cart.push(data);
+      cartData.splice(itemIndex, 1);
     }
-  } else {
-    cart.push(data);
   }
 
-  localStorage.setItem("cart", JSON.stringify(cart));
+  // Push the cart to localstorage
+  cart.pushToCart(cartData);
 
+  // If cart empty then remove ther localstorage key "cart"
   if (cart.length === 0) {
     localStorage.removeItem("cart");
   }

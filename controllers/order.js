@@ -1,6 +1,4 @@
-const axios = require("axios");
-const path = require("path");
-const fs = require("fs");
+const order = require("../models/Order");
 const { check, validationResult } = require("express-validator");
 
 exports.checkForm = [
@@ -11,15 +9,22 @@ exports.checkForm = [
   check("email").isEmail().withMessage("Votre email n'est pas valide"),
 ];
 
-exports.orderConfirm = async (req, res, next) => {
+exports.orderProcess = async (req, res, next) => {
+  const errors = validationResult(req);
   let firstName = req.body.firstName;
   let lastName = req.body.lastName;
   let address = req.body.address;
   let city = req.body.city;
   let email = req.body.email;
   let productsId = [];
-  let post;
-  const errors = validationResult(req);
+
+  // If form error
+  if (!errors.isEmpty()) {
+    req.session.success = false;
+    req.session.errors = errors.array();
+
+    return res.redirect("/panier");
+  }
 
   if (localStorage.getItem("cart") != undefined) {
     cart = JSON.parse(localStorage.getItem("cart"));
@@ -28,7 +33,7 @@ exports.orderConfirm = async (req, res, next) => {
     }
   }
 
-  let order = {
+  let orderData = {
     contact: {
       firstName: firstName,
       lastName: lastName,
@@ -39,29 +44,18 @@ exports.orderConfirm = async (req, res, next) => {
     products: productsId,
   };
 
-  if (!errors.isEmpty()) {
-    req.session.errors = errors.array();
-    req.session.success = false;
+  req.session.success = true;
 
-    return res.redirect("/panier");
-  } else {
-    req.session.success = true;
+  await order.createOrder(orderData);
 
-    post = await axios
-      .post("http://orinoco.benoitpodwinski.com/api/cameras/order", order)
-      .then(function (res) {
-        localStorage.setItem("order", JSON.stringify(res.data));
-      });
-  }
-  res.redirect("/order");
+  return res.redirect("/order");
 };
 
-exports.orderConfirmed = async (req, res, next) => {
-  orderData = JSON.parse(localStorage.getItem("order"));
-  orderProducts = orderData.products;
+exports.orderConfirm = async (req, res, next) => {
+  localStorage.removeItem("cart");
 
   res.render("../views/order", {
-    orderData: orderData,
-    orderProducts: orderProducts,
+    orderData: order.orderSchema(),
+    orderProducts: order.orderSchema().products,
   });
 };

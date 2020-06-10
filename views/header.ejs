@@ -22,6 +22,11 @@
                         <li class="nav-item">
                             <a class="nav-link" href="/panier">
                                 <strong>Panier
+                                    <% if (locals.cartData) { %>
+                                    <% if (locals.cartData.length !== 0) { %>
+                                    <span>(<%= cartData.length %>)</span>
+                                    <% } %>
+                                    <% } %>
                                 </strong>
                             </a>
                         </li>

@@ -14,6 +14,7 @@
                 notre équipe.</p>
 
             <h2 class="mt-4">Votre adresse :</h2>
+
             <ul class="list-group list-group-flush">
                 <li class="list-group-item"><span>Prénom : </span><%= orderData.contact.firstName %></li>
                 <li class="list-group-item"><span>Nom : </span><%= orderData.contact.lastName %></li>
@@ -30,7 +31,7 @@
                             <th scope="col" class="text-right">Prix</th>
                         </tr>
                     </thead>
-                    <% for(var i=0; i < orderProducts.length; i++) { %>
+                    <% for(let i=0; i < orderProducts.length; i++) { %>
                     <tr>
                         <td>
                             <img src="<%= orderProducts[i].imageUrl %>" class="img-fluid mr-3"
@@ -38,7 +39,7 @@
                             <span><%= orderProducts[i].name %></span>
                         </td>
                         <td class="text-right">
-                            <span><%= orderProducts[i].price %></span>
+                            <span><%= orderProducts[i].price + " €" %></span>
                         </td>
                     </tr>
                     <% } %>

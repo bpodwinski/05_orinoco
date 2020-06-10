@@ -5,7 +5,8 @@
     <section class="cart">
         <h1 class="text-center mb-4">Panier</h1>
         <div id="cart">
-            <% if (locals.data) { %>
+            <% if (locals.cartData) { %>
+            <% if (locals.cartData.length !== 0) { %>
             <table class="table table-borderless">
                 <tbody>
                     <thead>
@@ -15,21 +16,22 @@
                             <th scope="col" class="text-right">Prix</th>
                         </tr>
                     </thead>
-                    <% for(var i=0; i < data.length; i++) { %>
+                    <% for(let i=0; i < cartData.length; i++) { %>
                     <tr>
                         <td>
-                            <img src="<%= data[i].img %>" class="img-fluid mr-3" alt="<%= data[i].name %>" width="80">
-                            <span><%= data[i].name %></span>
+                            <img src="<%= cartData[i].img %>" class="img-fluid mr-3" alt="<%= cartData[i].name %>"
+                                width="80">
+                            <span><%= cartData[i].name %></span>
                         </td>
                         <td class="text-right">
-                            <span><%= data[i].qty %></span>
+                            <span><%= cartData[i].qty %></span>
                         </td>
                         <td class="text-right">
-                            <span><%= data[i].price + " €" %></span>
+                            <span><%= cartData[i].price + " €" %></span>
                         </td>
                         <td class="text-right">
                             <form action="/remove" method="POST">
-                                <input type="hidden" name="product_id" value="<%= data[i].id %>">
+                                <input type="hidden" name="product_id" value="<%= cartData[i].id %>">
                                 <button type="submit" class="btn btn-secondary">X</button>
                             </form>
                         </td>
@@ -40,13 +42,8 @@
 
             <ul class="list-group list-group-flush">
                 <li class="list-group-item"><strong>Total</strong></li>
-                <li class="list-group-item "><strong><%= totalPrice + " €" %></strong></li>
+                <li class="list-group-item "><strong><%= locals.cartTotalPrice + " €" %></strong></li>
             </ul>
-
-            <% } else { %>
-            <p class="alert alert-warning">Votre panier est vide :(</p>
-            <% } %>
-
 
             <div class="jumbotron mt-5">
                 <h2 class="text-center">Votre adresse</h2>
@@ -86,6 +83,11 @@
                     <input type="submit" class="mt-4 btn btn-primary btn-lg btn-block" value="Commander">
                 </form>
             </div>
+
+            <% } else { %>
+            <p class="alert alert-warning">Votre panier est vide :(</p>
+            <% } %>
+            <% } %>
         </div>
     </section>
 </div>

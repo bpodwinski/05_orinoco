@@ -2,6 +2,7 @@ const axios = require("axios");
 const uuid = require("uuid/v1");
 const Camera = require("../models/Camera");
 const Currency = require("../models/Currency");
+const cart = require("../models/Cart");
 
 exports.getAllCameras = (req, res, next) => {
   Camera.find()
@@ -44,6 +45,7 @@ exports.getAxiosAllCameras = async (req, res, next) => {
   }
 
   return res.render("../views/index", {
+    cartData: cart.cartSchema(),
     data: data,
   });
 };
@@ -51,10 +53,6 @@ exports.getAxiosAllCameras = async (req, res, next) => {
 exports.getAxiosCatCameras = async (req, res, next) => {
   let get = await axios.get("http://orinoco.benoitpodwinski.com/api/cameras");
   let data = get.data;
-
-  if (localStorage.getItem("cart") != undefined) {
-    cart = JSON.parse(localStorage.getItem("cart"));
-  }
 
   for (let i = 0; i < data.length; i++) {
     if (data[i].price) {
@@ -64,6 +62,7 @@ exports.getAxiosCatCameras = async (req, res, next) => {
 
   return res.render("../views/category", {
     title: "Caméras - Orinoco",
+    cartData: cart.cartSchema(),
     data: data,
   });
 };
@@ -74,10 +73,6 @@ exports.getAxiosOneCamera = async (req, res, next) => {
   );
   let data = get.data;
 
-  if (localStorage.getItem("cart") != undefined) {
-    cart = JSON.parse(localStorage.getItem("cart"));
-  }
-
   if (data.price) {
     data.price = Currency.currencyFormat(data.price);
   }
@@ -85,6 +80,7 @@ exports.getAxiosOneCamera = async (req, res, next) => {
   return res.render("../views/product", {
     title: data.name + " - " + "Orinoco",
     id: req.params.id,
+    cartData: cart.cartSchema(),
     data: data,
   });
 };

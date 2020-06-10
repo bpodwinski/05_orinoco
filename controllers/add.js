@@ -1,37 +1,37 @@
-const path = require("path");
-const fs = require("fs");
-
 if (typeof localStorage === "undefined" || localStorage === null) {
-  var LocalStorage = require("node-localstorage").LocalStorage;
+  let LocalStorage = require("node-localstorage").LocalStorage;
   localStorage = new LocalStorage("./scratch");
 }
+const cart = require("../models/Cart");
 
 exports.addToCart = (req, res, next) => {
+  let cartData = cart.cartSchema();
   let data = {
     id: req.body.product_id,
     name: req.body.product_name,
     img: req.body.product_img,
-    price: req.body.product_price,
-    qty: req.body.product_qty,
+    price: parseInt(req.body.product_price),
+    qty: parseInt(req.body.product_qty),
   };
-  let cart = [];
 
-  if (localStorage.getItem("cart") != undefined) {
-    cart = JSON.parse(localStorage.getItem("cart"));
-    let itemIndex = cart.findIndex((el) => el.id == data.id);
+  // If the cart exist
+  if (cartData != undefined) {
+    // If the product is already in cart then increment the quantity
+    let itemIndex = cartData.findIndex((el) => el.id == data.id);
 
     if (itemIndex > -1) {
-      let qty = parseInt(cart[itemIndex].qty);
+      let qty = parseInt(cartData[itemIndex].qty);
       qty += parseInt(data.qty);
-      cart[itemIndex].qty = qty;
+      cartData[itemIndex].qty = qty;
+
+      // If product doesn't exist in cart then we add it
     } else {
-      cart.push(data);
+      cartData.push(data);
     }
-  } else {
-    cart.push(data);
   }
 
-  localStorage.setItem("cart", JSON.stringify(cart));
+  // Push the cart to localstorage
+  cart.pushToCart(cartData);
 
   return res.redirect("/panier");
 };
