@@ -1,4 +1,6 @@
+*.zip
+*.docx
+*.url
 /node_modules
 /scratch
-.idea
 package-lock.json
