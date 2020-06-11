@@ -31,6 +31,8 @@ exports.addToCart = (req, res, next) => {
   }
 
   // Push the cart to localstorage
+  console.log("Product push to cart:");
+  console.log(data);
   cart.pushToCart(cartData);
 
   return res.redirect("/panier");

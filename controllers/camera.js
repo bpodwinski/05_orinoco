@@ -35,54 +35,66 @@ exports.getOneCamera = (req, res, next) => {
 };
 
 exports.getAxiosAllCameras = async (req, res, next) => {
-  let get = await axios.get("http://orinoco.benoitpodwinski.com/api/cameras");
-  let data = get.data;
+  try {
+    let get = await axios.get("http://orinoco.benoitpodwinski.com/api/cameras");
+    let data = get.data;
 
-  for (let i = 0; i < data.length; i++) {
-    if (data[i].price) {
-      data[i].price = Currency.currencyFormat(data[i].price);
+    for (let i = 0; i < data.length; i++) {
+      if (data[i].price) {
+        data[i].price = Currency.currencyFormat(data[i].price);
+      }
     }
-  }
 
-  return res.render("../views/index", {
-    cartData: cart.cartSchema(),
-    data: data,
-  });
+    return res.render("../views/index", {
+      cartData: cart.cartSchema(),
+      data: data,
+    });
+  } catch (error) {
+    res.status(500).send(error);
+  }
 };
 
 exports.getAxiosCatCameras = async (req, res, next) => {
-  let get = await axios.get("http://orinoco.benoitpodwinski.com/api/cameras");
-  let data = get.data;
+  try {
+    let get = await axios.get("http://orinoco.benoitpodwinski.com/api/cameras");
+    let data = get.data;
 
-  for (let i = 0; i < data.length; i++) {
-    if (data[i].price) {
-      data[i].price = Currency.currencyFormat(data[i].price);
+    for (let i = 0; i < data.length; i++) {
+      if (data[i].price) {
+        data[i].price = Currency.currencyFormat(data[i].price);
+      }
     }
-  }
 
-  return res.render("../views/category", {
-    title: "Caméras - Orinoco",
-    cartData: cart.cartSchema(),
-    data: data,
-  });
+    return res.render("../views/category", {
+      title: "Caméras - Orinoco",
+      cartData: cart.cartSchema(),
+      data: data,
+    });
+  } catch (error) {
+    res.status(500).send(error);
+  }
 };
 
 exports.getAxiosOneCamera = async (req, res, next) => {
-  let get = await axios.get(
-    "http://orinoco.benoitpodwinski.com/api/cameras/" + req.params.id
-  );
-  let data = get.data;
+  try {
+    let get = await axios.get(
+      "http://orinoco.benoitpodwinski.com/api/cameras/" + req.params.id
+    );
+    let data = get.data;
 
-  if (data.price) {
-    data.price = Currency.currencyFormat(data.price);
+    if (data.price) {
+      data.price = Currency.currencyFormat(data.price);
+    }
+
+    return res.render("../views/product", {
+      title: data.name + " - " + "Orinoco",
+      id: req.params.id,
+      cartData: cart.cartSchema(),
+      data: data,
+    });
+  } catch (error) {
+    res.status(500).send(error);
   }
-
-  return res.render("../views/product", {
-    title: data.name + " - " + "Orinoco",
-    id: req.params.id,
-    cartData: cart.cartSchema(),
-    data: data,
-  });
 };
 
 /**

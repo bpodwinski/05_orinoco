@@ -49,35 +49,43 @@
                 <h2 class="text-center">Votre adresse</h2>
                 <p class="lead text-center">Veuillez remplir votre adresse ci-dessous</p>
 
-                <% if (locals.errors) { %>
-                <% Object.values(errors).forEach(function(error){ %>
-                <p class="alert alert-danger"><%= error.msg %></p>
-                <% }); %>
-                <% } %>
-
-                <form method="post" action="/order">
+                <form method="post" action="/order" novalidate>
                     <div class="form-row">
                         <div class="col-sm-12 col-md-6 mb-3">
                             <label for="firstName">Prénom</label>
-                            <input type="text" maxlength="30" class="form-control" id="firstName" name="firstName">
+                            <input type="text" maxlength="30" class="form-control
+                                <% if (locals.firstNameError) { %>is-invalid<% } %>" id="firstName" name="firstName"
+                                value="<% locals.firstName %>">
+                            <div class=" invalid-feedback"><%= locals.firstNameError %></div>
                         </div>
                         <div class="col-sm-12 col-md-6 mb-3">
                             <label for="lastName">Nom</label>
-                            <input type="text" maxlength="30" class="form-control" id="lastName" name="lastName">
+                            <input type="text" maxlength="30"
+                                class="form-control <% if (locals.lastNameError) { %>is-invalid<% } %>" id="lastName"
+                                name="lastName">
+                            <div class="invalid-feedback"><%= locals.lastNameError %></div>
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="col-sm-12 col-md-6 mb-3">
                             <label for="address">Adresse</label>
-                            <input type="text" maxlength="50" class="form-control" id="address" name="address">
+                            <input type="text" maxlength="50"
+                                class="form-control <% if (locals.addressError) { %>is-invalid<% } %>" id="address"
+                                name="address">
+                            <div class="invalid-feedback"><%= locals.addressError %></div>
                         </div>
                         <div class="col-sm-12 col-md-3 mb-3">
                             <label for="city">Ville</label>
-                            <input type="text" maxlength="30" class="form-control" id="city" name="city">
+                            <input type="text" maxlength="30"
+                                class="form-control <% if (locals.cityError) { %>is-invalid<% } %>" id="city"
+                                name="city">
+                            <div class="invalid-feedback"><%= locals.cityError %></div>
                         </div>
                         <div class="col-sm-12 col-md-3 mb-3">
                             <label for="email">Email</label>
-                            <input type="text" class="form-control" id="email" name="email">
+                            <input type="text" class="form-control <% if (locals.emailError) { %>is-invalid<% } %>"
+                                id="email" name="email">
+                            <div class="invalid-feedback"><%= locals.emailError %></div>
                         </div>
                     </div>
                     <input type="submit" class="mt-4 btn btn-primary btn-lg btn-block" value="Commander">

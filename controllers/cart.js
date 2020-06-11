@@ -7,6 +7,11 @@ exports.cart = (req, res, next) => {
     cartTotalPrice: cart.cartTotalPrice(),
     success: req.session.success,
     errors: req.session.errors,
+    firstNameError: req.session.firstNameError,
+    lastNameError: req.session.lastNameError,
+    addressError: req.session.addressError,
+    cityError: req.session.cityError,
+    emailError: req.session.emailError,
   });
   req.session.destroy();
 };
